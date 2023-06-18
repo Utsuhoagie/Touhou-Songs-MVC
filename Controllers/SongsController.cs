@@ -17,28 +17,46 @@ namespace Touhou_Songs_MVC.Controllers
 		// GET: Songs
 		public async Task<IActionResult> Index()
 		{
-			return _context.Songs != null ?
-						View(await _context.Songs.ToListAsync()) :
-						Problem("Entity set 'Touhou_Songs_MVC_Context.Songs'  is null.");
+			var songResponses = await _context.Songs
+				.Select(s => new SongResponse
+				{
+					Id = s.Id,
+					Title = s.Title,
+					Origin = s.Origin,
+					TitleLength = s.Title.Length,
+				})
+				.ToListAsync();
+
+			return View(songResponses);
+
 		}
 
 		// GET: Songs/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
-			if (id == null || _context.Songs == null)
+			if (id == null)
 			{
-				return NotFound();
+				return BadRequest();
 			}
 
-			var song = await _context.Songs
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var song = await _context.Songs.FindAsync(id);
+
 			if (song == null)
 			{
 				return NotFound();
 			}
 
-			return View(song);
+			var songResponse = new SongResponse
+			{
+				Id = song.Id,
+				Title = song.Title,
+				Origin = song.Origin,
+				TitleLength = song.Title.Length,
+			};
+
+			return View(songResponse);
 		}
+
 
 		// GET: Songs/Create
 		public IActionResult Create()
@@ -47,35 +65,50 @@ namespace Touhou_Songs_MVC.Controllers
 		}
 
 		// POST: Songs/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Title,Origin")] Song song)
+		public async Task<IActionResult> Create(SongRequest req)
 		{
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				_context.Add(song);
-				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-			return View(song);
+
+			var song = new Song
+			{
+				Title = req.Title,
+				Origin = req.Origin,
+			};
+
+			_context.Songs.Add(song);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(Index));
 		}
+
 
 		// GET: Songs/Edit/5
 		public async Task<IActionResult> Edit(int? id)
 		{
-			if (id == null || _context.Songs == null)
+			if (id == null)
 			{
-				return NotFound();
+				return BadRequest();
 			}
 
 			var song = await _context.Songs.FindAsync(id);
+
 			if (song == null)
 			{
 				return NotFound();
 			}
-			return View(song);
+
+			var baseReq = new SongRequest
+			{
+				Title = song.Title,
+				Origin = song.Origin,
+			};
+
+			return View(baseReq);
 		}
 
 		// POST: Songs/Edit/5
@@ -83,52 +116,70 @@ namespace Touhou_Songs_MVC.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Origin")] Song song)
+		public async Task<IActionResult> Edit(int id, SongRequest req)
 		{
-			if (id != song.Id)
+			//if (id != req.Id)
+			//{
+			//	return NotFound();
+			//}
+
+			if (!ModelState.IsValid)
 			{
-				return NotFound();
+				return BadRequest();
 			}
 
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				var song = await _context.Songs.FindAsync(id);
+
+				if (song == null)
 				{
-					_context.Update(song);
-					await _context.SaveChangesAsync();
+					return BadRequest();
 				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!SongExists(song.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
+
+				song.Title = req.Title;
+				song.Origin = req.Origin;
+
+				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-			return View(song);
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!SongExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 		}
+
 
 		// GET: Songs/Delete/5
 		public async Task<IActionResult> Delete(int? id)
 		{
-			if (id == null || _context.Songs == null)
+			if (id == null)
 			{
-				return NotFound();
+				return BadRequest();
 			}
 
-			var song = await _context.Songs
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var song = await _context.Songs.FindAsync(id);
+
 			if (song == null)
 			{
 				return NotFound();
 			}
 
-			return View(song);
+			var songResponse = new SongResponse
+			{
+				Title = song.Title,
+				Origin = song.Origin,
+				TitleLength = song.Title.Length,
+			};
+
+			return View(songResponse);
 		}
 
 		// POST: Songs/Delete/5
@@ -136,11 +187,8 @@ namespace Touhou_Songs_MVC.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			if (_context.Songs == null)
-			{
-				return Problem("Entity set 'Touhou_Songs_MVC_Context.Songs'  is null.");
-			}
 			var song = await _context.Songs.FindAsync(id);
+
 			if (song != null)
 			{
 				_context.Songs.Remove(song);
@@ -149,6 +197,7 @@ namespace Touhou_Songs_MVC.Controllers
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}
+
 
 		private bool SongExists(int id)
 		{

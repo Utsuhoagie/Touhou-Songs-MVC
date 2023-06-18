@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Touhou_Songs_MVC.Models.Song>
+﻿@model IEnumerable<Touhou_Songs_MVC.Models.SongResponse>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,7 +18,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Origin)
             </th>
-            <th></th>
+            <th>
+				@Html.DisplayNameFor(model => model.TitleLength)
+			</th>
+			<th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +32,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Origin)
+            </td>
+						<td>
+                @Html.DisplayFor(modelItem => item.TitleLength)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

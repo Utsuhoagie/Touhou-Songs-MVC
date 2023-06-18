@@ -1,4 +1,4 @@
-﻿@model Touhou_Songs_MVC.Models.Song
+﻿@model Touhou_Songs_MVC.Models.SongResponse
 
 @{
     ViewData["Title"] = "Details";
@@ -16,11 +16,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Origin)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Origin)
+        </dd>
+				
+				<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TitleLength)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TitleLength)
         </dd>
     </dl>
 </div>
