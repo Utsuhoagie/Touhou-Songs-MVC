@@ -1,0 +1,84 @@
+﻿@model Touhou_Songs_MVC.Views.Games.EditGameViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Game</h4>
+<hr />
+<div class="row">
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.GameResponse.Id)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.GameResponse.Id)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.GameResponse.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.GameResponse.Name)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.GameResponse.NameCode)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.GameResponse.NameCode)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.GameResponse.NumberCodeDisplay)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.GameResponse.NumberCodeDisplay)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.GameResponse.YearReleased)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.GameResponse.YearReleased)
+		</dd>
+	</dl>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<input type="hidden" asp-for="GameRequest.Id" />*@
+            <div class="form-group">
+                <label asp-for="GameRequest.Name" class="control-label"></label>
+                <input asp-for="GameRequest.Name" class="form-control" />
+                <span asp-validation-for="GameRequest.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GameRequest.NameCode" class="control-label"></label>
+                <input asp-for="GameRequest.NameCode" class="form-control" />
+                <span asp-validation-for="GameRequest.NameCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GameRequest.NumberCode" class="control-label"></label>
+                <input asp-for="GameRequest.NumberCode" class="form-control" />
+                <span asp-validation-for="GameRequest.NumberCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GameRequest.YearReleased" class="control-label"></label>
+                <input asp-for="GameRequest.YearReleased" class="form-control" />
+                <span asp-validation-for="GameRequest.YearReleased" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

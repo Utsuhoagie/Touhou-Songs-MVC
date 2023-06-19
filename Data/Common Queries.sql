@@ -33,20 +33,20 @@ SELECT [FullName], [UserName], Users.[Email], Roles.[Name] AS [RoleName], /* [Pa
 
 -- ====== App ============
 
--- Get Images
-SELECT * FROM dbo.Images;
+-- Get Songs
+SELECT * FROM dbo.Songs;
 
--- Get Tags
-SELECT * FROM dbo.Tags;
+-- Get Games
+SELECT * FROM dbo.Games;
 
 
 -- Get Images & Tags
-SELECT * FROM dbo._JOIN_ImageTag;
+-- SELECT * FROM dbo._JOIN_ImageTag;
 
-SELECT [ImageId], [TagId], [Title], [Name] AS [TagName] FROM 
-    dbo.[_JOIN_ImageTag]
-        LEFT JOIN dbo.Images ON dbo.Images.Id = dbo.[_JOIN_ImageTag].ImageId
-        LEFT JOIN dbo.Tags ON dbo.Tags.Id = dbo.[_JOIN_ImageTag].TagId;
+-- SELECT [ImageId], [TagId], [Title], [Name] AS [TagName] FROM 
+--     dbo.[_JOIN_ImageTag]
+--         LEFT JOIN dbo.Images ON dbo.Images.Id = dbo.[_JOIN_ImageTag].ImageId
+--         LEFT JOIN dbo.Tags ON dbo.Tags.Id = dbo.[_JOIN_ImageTag].TagId;
 
 
 

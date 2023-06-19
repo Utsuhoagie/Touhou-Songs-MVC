@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Touhou_Songs_MVC.Data;
 
@@ -10,9 +11,11 @@ using Touhou_Songs_MVC.Data;
 namespace Touhou_Songs_MVC.Migrations
 {
     [DbContext(typeof(Touhou_Songs_MVC_Context))]
-    partial class Touhou_Songs_MVCContextModelSnapshot : ModelSnapshot
+    [Migration("20230618055113_Add_Game")]
+    partial class Add_Game
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

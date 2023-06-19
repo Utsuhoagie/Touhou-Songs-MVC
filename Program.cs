@@ -45,6 +45,8 @@ try
 
 	app.Run();
 }
+
+#region==== Catch ====
 catch (Exception ex)
 {
 	if (ex is HostAbortedException)
@@ -57,3 +59,4 @@ finally
 {
 	Log.CloseAndFlush();
 }
+#endregion

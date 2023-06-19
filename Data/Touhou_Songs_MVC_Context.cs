@@ -11,5 +11,6 @@ namespace Touhou_Songs_MVC.Data
 		}
 
 		public DbSet<Song> Songs { get; set; } = default!;
+		public DbSet<Game> Games { get; set; } = default!;
 	}
 }
